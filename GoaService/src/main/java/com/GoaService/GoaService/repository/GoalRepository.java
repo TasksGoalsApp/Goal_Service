@@ -1,6 +1,0 @@
-package com.GoaService.GoaService.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface GoalRepository extends JpaRepository<GoalEntity, Long> {
-}

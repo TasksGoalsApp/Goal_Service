@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  goals-mysql:
+    image: mysql:8.0
+    container_name: goals-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: goals_db
+      MYSQL_USER: goals_user
+      MYSQL_PASSWORD: goals_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3309:3306"
+    volumes:
+      - goals_mysql_data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  goals_mysql_data:
