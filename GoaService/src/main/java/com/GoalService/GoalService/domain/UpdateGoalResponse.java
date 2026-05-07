@@ -14,7 +14,7 @@ public class UpdateGoalResponse {
     private String title;
     private String description;
     private LocalDate targetDate;
-    private long progress;
+    private int progress;
     private Category category;
     private Status status;
 }

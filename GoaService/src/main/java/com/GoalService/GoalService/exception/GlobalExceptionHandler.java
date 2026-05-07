@@ -1,6 +1,5 @@
-package com.GoalService.GoalService.exeption;
+package com.GoalService.GoalService.exception;
 
-import com.GoalService.GoalService.business.Impl.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

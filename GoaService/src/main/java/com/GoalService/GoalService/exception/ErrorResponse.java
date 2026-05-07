@@ -1,4 +1,4 @@
-package com.GoalService.GoalService.exeption;
+package com.GoalService.GoalService.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

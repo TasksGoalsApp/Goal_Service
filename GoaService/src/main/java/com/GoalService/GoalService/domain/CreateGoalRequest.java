@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateGoalRequest {
-    @NotNull
-    private long userId;
     @NotBlank
     @Size(max = 50)
     private String title;

@@ -1,8 +1,10 @@
 package com.GoalService.GoalService.business.Impl;
 
 import com.GoalService.GoalService.business.IUpdateGoal;
+import com.GoalService.GoalService.business.rules.GoalStatusResolver;
 import com.GoalService.GoalService.domain.UpdateGoalRequest;
 import com.GoalService.GoalService.domain.UpdateGoalResponse;
+import com.GoalService.GoalService.exception.ResourceNotFoundException;
 import com.GoalService.GoalService.repository.GoalEntity;
 import com.GoalService.GoalService.repository.GoalRepository;
 import lombok.AllArgsConstructor;
@@ -17,8 +19,8 @@ public class UpdateGoalImpl implements IUpdateGoal {
 
     @Transactional
     @Override
-    public UpdateGoalResponse updateGoal(UpdateGoalRequest updateGoalRequest) {
-        GoalEntity goalEntity = goalRepository.findByIdAndUserId(updateGoalRequest.getId(), updateGoalRequest.getUserId())
+    public UpdateGoalResponse updateGoal(UpdateGoalRequest updateGoalRequest, long userId) {
+        GoalEntity goalEntity = goalRepository.findByIdAndUserId(updateGoalRequest.getId(), userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Goal not found"));
 
         goalEntity.setTitle(updateGoalRequest.getTitle());
@@ -26,7 +28,7 @@ public class UpdateGoalImpl implements IUpdateGoal {
         goalEntity.setTargetDate(updateGoalRequest.getTargetDate());
         goalEntity.setProgress(updateGoalRequest.getProgress());
         goalEntity.setCategory(updateGoalRequest.getCategory());
-        goalEntity.setStatus(updateGoalRequest.getStatus());
+        goalEntity.setStatus(GoalStatusResolver.resolve(goalEntity.getProgress()));
 
         GoalEntity savedGoal = goalRepository.save(goalEntity);
 

@@ -1,6 +1,7 @@
 package com.GoalService.GoalService.business.Impl;
 
 import com.GoalService.GoalService.business.ICreateGoal;
+import com.GoalService.GoalService.business.rules.GoalStatusResolver;
 import com.GoalService.GoalService.domain.CreateGoalRequest;
 import com.GoalService.GoalService.domain.CreateGoalResponse;
 import com.GoalService.GoalService.domain.Status;
@@ -19,28 +20,28 @@ public class CreateGoalImpl implements ICreateGoal {
 
     @Transactional
     @Override
-    public CreateGoalResponse createGoal(CreateGoalRequest request) {
+    public CreateGoalResponse createGoal(CreateGoalRequest request,  long userId) {
 
         if (request.getTargetDate() == null || !request.getTargetDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Target date must be in the future");
         }
 
-        GoalEntity savedGoal = saveNewGoal(request);
+        GoalEntity savedGoal = saveNewGoal(request, userId);
         return CreateGoalResponse.builder()
                 .goalId(savedGoal.getId())
                 .build();
     }
 
-    private GoalEntity saveNewGoal (CreateGoalRequest request){
+    private GoalEntity saveNewGoal (CreateGoalRequest request,  long userID) {
 
         GoalEntity newgoal = GoalEntity.builder()
-                .userId(request.getUserId())
+                .userId(userID)
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .targetDate(request.getTargetDate())
                 .category(request.getCategory())
                 .progress(0)
-                .status(Status.IN_PROGRESS)
+                .status(Status.NOT_STARTED)
                 .build();
 
         return goalRepository.save(newgoal);
