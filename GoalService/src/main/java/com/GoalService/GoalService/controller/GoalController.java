@@ -62,7 +62,7 @@ public class GoalController {
     public ResponseEntity<CreateGoalResponse> createGoal(@RequestBody @Valid CreateGoalRequest createGoalRequest, @AuthenticationPrincipal Jwt jwt) {
         long userId = Long.parseLong(jwt.getClaimAsString("userId"));
         CreateGoalResponse response = createGoal.createGoal(createGoalRequest, userId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @RolesAllowed({"Customer"})
