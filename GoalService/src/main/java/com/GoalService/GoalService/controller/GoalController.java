@@ -38,14 +38,14 @@ public class GoalController {
     @RolesAllowed({"Customer"})
     @PutMapping("/updateGoal")
     public ResponseEntity<UpdateGoalResponse> updateGoal(@RequestBody @Valid UpdateGoalRequest updateGoalRequest, @AuthenticationPrincipal Jwt jwt) {
-        long userId = Long.parseLong(jwt.getClaimAsString("userId"));
+        Long userId = jwt.getClaim("id");
         UpdateGoalResponse response = updateGoal.updateGoal(updateGoalRequest, userId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @RolesAllowed({"Customer"})
     @GetMapping()
     public ResponseEntity<GetGoalsByUserResponse> getGoalsByUser(@AuthenticationPrincipal Jwt jwt) {
-        long userId = Long.parseLong(jwt.getClaimAsString("userId"));
+        Long userId = jwt.getClaim("id");
         GetGoalsByUserResponse getGoalsByUserResponse = getGoalsByUser.getGoalsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(getGoalsByUserResponse);
     }
@@ -53,14 +53,14 @@ public class GoalController {
     @RolesAllowed({"Customer"})
     @DeleteMapping("/{goalId}")
     public ResponseEntity<Void> deleteGoal(@PathVariable long goalId,  @AuthenticationPrincipal Jwt jwt) {
-        long userId = Long.parseLong(jwt.getClaimAsString("userId"));
+        Long userId = jwt.getClaim("id");
         deleteGoal.deleteGoal(goalId, userId);
         return ResponseEntity.noContent().build();
     }
     @RolesAllowed({"Customer"})
     @PostMapping("/createGoal")
     public ResponseEntity<CreateGoalResponse> createGoal(@RequestBody @Valid CreateGoalRequest createGoalRequest, @AuthenticationPrincipal Jwt jwt) {
-        long userId = Long.parseLong(jwt.getClaimAsString("userId"));
+        Long userId = jwt.getClaim("id");
         CreateGoalResponse response = createGoal.createGoal(createGoalRequest, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -68,8 +68,7 @@ public class GoalController {
     @RolesAllowed({"Customer"})
     @PatchMapping("/{goalId}/progress")
     public ResponseEntity<UpdateGoalProgressResponse> updateProgress(@RequestBody @Valid UpdateGoalProgressRequest request, @AuthenticationPrincipal Jwt jwt, @PathVariable long goalId ){
-        long userId = Long.parseLong(jwt.getClaimAsString("userId"));
-
+        Long userId = jwt.getClaim("id");
         UpdateGoalProgressResponse response = updateGoalProgress.updateGoalProgress(request, userId, goalId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
