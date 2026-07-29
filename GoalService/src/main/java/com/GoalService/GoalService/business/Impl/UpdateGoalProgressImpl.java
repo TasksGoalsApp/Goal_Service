@@ -1,6 +1,7 @@
 package com.GoalService.GoalService.business.Impl;
 
 import com.GoalService.GoalService.business.IUpdateGoalProgress;
+import com.GoalService.GoalService.business.rules.GoalStatusResolver;
 import com.GoalService.GoalService.domain.Status;
 import com.GoalService.GoalService.domain.UpdateGoalProgressRequest;
 import com.GoalService.GoalService.domain.UpdateGoalProgressResponse;
@@ -23,11 +24,7 @@ public class UpdateGoalProgressImpl implements IUpdateGoalProgress {
                 .orElseThrow(() -> new ResourceNotFoundException("Goal not found"));
 
         goalEntity.setProgress(request.getProgress());
-        if(request.getProgress() == 100){
-            goalEntity.setStatus(Status.COMPLETED);
-        }else {
-            goalEntity.setStatus(Status.IN_PROGRESS);
-        }
+        goalEntity.setStatus(GoalStatusResolver.resolve(request.getProgress()));
 
         goalRepository.save(goalEntity);
         return UpdateGoalProgressResponse.builder()
