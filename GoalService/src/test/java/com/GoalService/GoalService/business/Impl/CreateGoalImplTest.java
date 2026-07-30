@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoInteractions;
 @ExtendWith(MockitoExtension.class)
-public class CreateGoalImplTest {
+class CreateGoalImplTest {
 
     @Mock
     private GoalRepository goalRepository;

@@ -1,4 +1,4 @@
-package com.GoalService.GoalService.security.Security;
+package com.GoalService.GoalService.security;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

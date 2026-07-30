@@ -30,8 +30,8 @@ public class UpdateGoalRequest {
     @Min(0)
     @Max(100)
     private int progress;
-    @NotBlank
+    @NotNull
     private Category category;
-    @NotBlank
+    @NotNull
     private Status status;
 }
