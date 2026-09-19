@@ -3,13 +3,21 @@ name: Send Release to Discord
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   discord:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug trigger
+        run: |
+          echo "Workflow started"
+          echo "Event: ${{ github.event_name }}"
+          echo "Repository: ${{ github.repository }}"
+
       - name: Send patch notes to Discord
+        if: github.event_name == 'release'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RELEASE_NAME: ${{ github.event.release.name }}
