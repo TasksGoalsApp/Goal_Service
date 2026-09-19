@@ -1,45 +1,12 @@
-name: Send Release to Discord
+name: Discord Notification
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  discord:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Debug trigger
-        run: |
-          echo "Workflow started"
-          echo "Event: ${{ github.event_name }}"
-          echo "Repository: ${{ github.repository }}"
-
-      - name: Send patch notes to Discord
-        if: github.event_name == 'release'
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          RELEASE_NAME: ${{ github.event.release.name }}
-          RELEASE_BODY: ${{ github.event.release.body }}
-          RELEASE_URL: ${{ github.event.release.html_url }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          payload=$(jq -n \
-            --arg repo "$REPOSITORY" \
-            --arg name "$RELEASE_NAME" \
-            --arg body "$RELEASE_BODY" \
-            --arg url "$RELEASE_URL" \
-            '{
-              username: "GitHub Releases",
-              embeds: [{
-                title: ("🚀 " + $repo + " — " + $name),
-                description: $body,
-                url: $url
-              }]
-            }')
-
-          curl \
-            -H "Content-Type: application/json" \
-            -d "$payload" \
-            "$DISCORD_WEBHOOK_URL"
+  notify:
+    uses: TaskGoalsApp/.github/.github/workflows/discord-notification.yml@main
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
