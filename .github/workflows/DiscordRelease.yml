@@ -7,6 +7,6 @@ on:
 
 jobs:
   notify:
-    uses: TaskGoalsApp/.github/.github/workflows/discord-notification.yml@main
+    uses: TasksGoalsApp/.github/.github/workflows/discord-notification.yml@main
     secrets:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
